@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { UserService } from './core/services/user';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  template: '<router-outlet></router-outlet>', // ให้มีแค่ router-outlet
 })
-export class App {
-  protected title = 'gameshop';
+export class AppComponent {
+  // แค่ inject เข้ามาเฉยๆ constructor ของ service จะทำงานอัตโนมัติ
+  private userService = inject(UserService); 
 }

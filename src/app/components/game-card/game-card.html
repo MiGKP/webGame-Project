@@ -1,0 +1,13 @@
+<a [routerLink]="['/game', game.id]" class="card-link" *ngIf="game">
+  <div class="card">
+    <div class="card-image" [style.background-image]="'url(' + game.imageUrl + ')'"></div>
+    <div class="card-body">
+      <h3 class="card-title">{{ game.name }}</h3>
+      <p class="card-category">{{ game.category }}</p>
+      <div class="card-footer">
+        <span class="price">฿ {{ game.price }}</span>
+        <span class="date">{{ game.releaseDate?.toDate() | date: 'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
+  </div>
+</a>

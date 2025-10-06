@@ -1,0 +1,20 @@
+<app-navbar></app-navbar>
+
+<div class="details-container" *ngIf="game">
+  <div class="game-banner">
+    <img [src]="game.imageUrl" [alt]="game.name">
+  </div>
+
+  <div class="game-content">
+    <div class="info-panel">
+      <h1>{{ game.name }}</h1>
+      <p class="meta">{{ game.category }} | Release Date: {{ game.releaseDate?.toDate() | date: 'MMM d, y' }}</p>
+      <div class="price">฿{{ game.price }}.00</div>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+    <div class="description-panel">
+      <p>{{ game.description }}</p>
+    </div>
+  </div>
+</div>

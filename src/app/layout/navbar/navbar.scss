@@ -1,0 +1,152 @@
+$bg-navbar: #23272a;
+$bg-dark: #2c2f33;
+$primary-blue: #5865f2;
+$text-light: #ffffff;
+$text-muted: #b9bbbe;
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 70px;
+  background-color: $bg-navbar;
+  color: $text-light;
+  border-bottom: 1px solid $bg-dark;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: $text-muted;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+  padding: 0.5rem 0;
+  position: relative;
+
+  &:hover {
+    color: $text-light;
+  }
+
+  &.active-link {
+    color: $primary-blue;
+    font-weight: bold;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: $primary-blue;
+      border-radius: 2px;
+    }
+  }
+}
+
+.search-container {
+  display: flex;
+  input {
+    background-color: $bg-dark;
+    border: 1px solid darken($bg-dark, 5%);
+    border-radius: 4px 0 0 4px;
+    padding: 0.5rem;
+    color: $text-light;
+    &:focus {
+      outline: none;
+      border-color: $primary-blue;
+    }
+  }
+  .search-btn {
+    background-color: $bg-dark;
+    border: 1px solid darken($bg-dark, 5%);
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+}
+
+.cart-link {
+  position: relative;
+  font-size: 1.5rem;
+  .cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.profile-dropdown {
+  position: relative;
+  
+  // --- ส่วนที่แก้ไข ---
+  // &:hover .dropdown-content {
+  //   display: block; // <--- ลบบรรทัดนี้ออก
+  // }
+
+  &:hover .profile-pic {
+    border-color: $primary-blue;
+  }
+}
+
+.dropdown-content {
+  // --- ส่วนที่แก้ไข ---
+  // display: none; // <--- ลบบรรทัดนี้ออกเพื่อให้ Angular ควบคุมการแสดงผล
+  position: absolute;
+  right: 0;
+  top: 60px;
+  background-color: $bg-dark;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  min-width: 200px;
+  z-index: 1;
+
+  .dropdown-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid darken($bg-dark, 5%);
+    color: $text-muted;
+    font-size: 0.9rem;
+  }
+
+  a {
+    display: block;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    &.logout-link:hover {
+      background-color: darken(red, 10%);
+      color: white;
+    }
+  }
+}

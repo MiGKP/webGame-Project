@@ -1,0 +1,32 @@
+.details-container {
+  padding: 2rem 5%;
+  background-color: #1e2124;
+  color: white;
+  min-height: 100vh;
+}
+
+.game-banner img {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+.game-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.info-panel {
+  flex: 1;
+  min-width: 300px;
+}
+
+.description-panel {
+  flex: 2;
+  min-width: 400px;
+}
+
+// ... เพิ่มสไตล์สำหรับ h1, p, button ตามต้องการ ...

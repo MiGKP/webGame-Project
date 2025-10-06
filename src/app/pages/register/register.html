@@ -1,0 +1,25 @@
+<div class="register-container">
+  <div class="register-box">
+    <h2>Create your account</h2>
+    <p class="subtitle">join the gameshop community today!</p>
+
+    <form #registerForm="ngForm" (ngSubmit)="onRegister()">
+      <div class="profile-uploader" (click)="fileInput.click()">
+        <img [src]="profileImagePreview || 'assets/placeholder-user.png'" alt="Profile Preview">
+        <span>upload a profile pic!</span>
+        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+      </div>
+
+      <input type="text" placeholder="username" [(ngModel)]="displayName" name="displayName" required>
+      <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required email>
+      <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required minlength="6">
+      <input type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+
+      <button type="submit" class="register-btn" [disabled]="registerForm.invalid || !selectedFile">Register</button>
+    </form>
+
+    <div class="login-link">
+      <span>Already have an account? <a routerLink="/login">login</a></span>
+    </div>
+  </div>
+</div>

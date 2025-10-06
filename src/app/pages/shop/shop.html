@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+
+<main class="shop-container">
+  <section class="game-section">
+    <header class="section-header">
+      <h2>Game Store</h2>
+      <button class="view-all-btn">All</button>
+    </header>
+    <div class="game-grid">
+      <app-game-card *ngFor="let game of allGames" [game]="game"></app-game-card>
+    </div>
+  </section>
+
+  <section class="game-section">
+    <header class="section-header">
+      <h2>Game Ranking 28/09/2025</h2>
+      <button class="view-all-btn">All</button>
+    </header>
+    <div class="game-grid">
+      <app-game-card *ngFor="let game of rankedGames" [game]="game"></app-game-card>
+    </div>
+  </section>
+</main>

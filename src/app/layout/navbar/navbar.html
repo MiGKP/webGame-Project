@@ -1,0 +1,32 @@
+<nav class="navbar-container">
+  <div class="nav-left">
+    <a routerLink="/shop" class="logo">GameShop</a>
+    <a routerLink="/shop" routerLinkActive="active-link">ร้านค้า</a>
+    <a routerLink="/library" routerLinkActive="active-link">คลังเกม</a>
+  </div>
+
+  <div class="nav-right" *ngIf="userService.currentUser$ | async as currentUser">
+    <div class="search-container">
+      <input type="text" placeholder="Search games...">
+      <button class="search-btn">🔍</button>
+    </div>
+
+    <a routerLink="/cart" class="cart-link" routerLinkActive="active-link">
+      🛒
+      <span class="cart-badge">0</span>
+    </a>
+
+    <div class="profile-dropdown">
+      <img [src]="currentUser.photoURL" [alt]="currentUser.displayName" class="profile-pic" (click)="toggleDropdown()">
+      
+      <div class="dropdown-content" *ngIf="isDropdownOpen">
+        <div class="dropdown-header">
+          Signed in as
+          <strong>{{ currentUser.displayName }}</strong>
+        </div>
+        <a routerLink="/profile" (click)="toggleDropdown()">Profile</a>
+        <a (click)="logout()" class="logout-link">Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>

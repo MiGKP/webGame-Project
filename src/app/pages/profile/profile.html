@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+
+<div class="profile-container">
+  <div *ngIf="!isLoading && user; else loadingTemplate">
+    <div class="profile-header">
+      <h1>My Profile</h1>
+      <p>Manage your account details and wallet.</p>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-card">
+        <h3>Account Details</h3>
+        <div class="avatar-section">
+          <img [src]="profileImagePreview" alt="Profile Avatar" class="avatar-preview">
+          <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+          <button class="change-photo-btn" (click)="fileInput.click()">Change Photo</button>
+        </div>
+        
+        <div class="form-group">
+          <label for="displayName">Display Name</label>
+          <input id="displayName" type="text" [(ngModel)]="user.displayName">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" [value]="user.email" disabled>
+        </div>
+
+        <button class="save-btn" (click)="onUpdateProfile()">Save Changes</button>
+      </div>
+
+      <div class="wallet-card">
+        <h3>My Wallet</h3>
+        <div class="balance-display">
+          <span>Current Balance</span>
+          <div class="balance-amount">฿ {{ user.walletBalance | number:'1.2-2' }}</div>
+        </div>
+        <button class="top-up-btn">Top Up</button>
+        <div class="transaction-history">
+          <a href="#">View Transaction History</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="loading-spinner"></div>
+</ng-template>
