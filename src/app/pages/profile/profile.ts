@@ -2,11 +2,15 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../../layout/navbar/navbar';
+import { UserService } from '../../core/services/user';
 
 // Firebase Imports
 import { Auth } from '@angular/fire/auth';
-import { Firestore, doc, getDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, updateDoc, collection, addDoc, serverTimestamp, orderBy, query } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { collectionData } from 'rxfire/firestore';
+import { User } from '../../core/interfaces/user.interface';
 
 @Component({
   selector: 'app-profile',
@@ -16,41 +20,44 @@ import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage
   styleUrl: './profile.scss'
 })
 export class ProfileComponent implements OnInit {
-  // Inject Firebase Services
   private auth: Auth = inject(Auth);
   private firestore: Firestore = inject(Firestore);
   private storage: Storage = inject(Storage);
+  userService: UserService = inject(UserService);
 
-  user: any = null; // สำหรับเก็บข้อมูลผู้ใช้ที่ล็อกอินอยู่
+  user: User | null = null;
   selectedFile: File | null = null;
   profileImagePreview: string | ArrayBuffer | null = null;
   isLoading = true;
+  customAmount: number | null = null;
+
+  transactions$: Observable<any[]> | undefined;
 
   ngOnInit(): void {
-    const currentUser = this.auth.currentUser;
-    if (currentUser) {
-      this.fetchUserData(currentUser.uid);
-    }
+    this.userService.currentUser$.subscribe(user => {
+      if (user) {
+        this.user = { ...user };
+        this.profileImagePreview = user.photoURL;
+        this.isLoading = false;
+        this.loadTransactions(user.uid);
+      } else {
+        this.user = null;
+        this.isLoading = false;
+      }
+    });
   }
 
-  async fetchUserData(uid: string) {
-    const userDocRef = doc(this.firestore, `users/${uid}`);
-    const docSnap = await getDoc(userDocRef);
-
-    if (docSnap.exists()) {
-      this.user = { uid: docSnap.id, ...docSnap.data() };
-      this.profileImagePreview = this.user.photoURL; // ตั้งค่ารูปพรีวิวเริ่มต้น
-    } else {
-      console.error("User data not found!");
-    }
-    this.isLoading = false;
+  loadTransactions(uid: string): void {
+    const transactionsCollectionRef = collection(this.firestore, `users/${uid}/transactions`);
+    // --- แก้ไขตรงนี้: เปลี่ยน 'timestamp' เป็น 'date' ---
+    const q = query(transactionsCollectionRef, orderBy('date', 'desc'));
+    this.transactions$ = collectionData(q, { idField: 'id' });
   }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
-      // สร้างพรีวิวรูปภาพใหม่ทันที
       const reader = new FileReader();
       reader.onload = e => this.profileImagePreview = reader.result;
       reader.readAsDataURL(file);
@@ -65,29 +72,73 @@ export class ProfileComponent implements OnInit {
     let photoURL = this.user.photoURL;
 
     try {
-      // 1. ถ้ามีการเลือกไฟล์รูปใหม่ ให้อัปโหลดก่อน
       if (this.selectedFile) {
         const storageRef = ref(this.storage, `profile-pictures/${this.user.uid}/profile.jpg`);
         await uploadBytes(storageRef, this.selectedFile);
         photoURL = await getDownloadURL(storageRef);
       }
 
-      // 2. เตรียมข้อมูลที่จะอัปเดต
       const dataToUpdate = {
         displayName: this.user.displayName,
         photoURL: photoURL
       };
 
-      // 3. อัปเดตข้อมูลใน Firestore
       await updateDoc(userDocRef, dataToUpdate);
+      this.userService.currentUser$.next({ ...this.user, ...dataToUpdate });
 
       alert('Profile updated successfully!');
-      this.selectedFile = null; // รีเซ็ตไฟล์ที่เลือก
+      this.selectedFile = null;
     } catch (error) {
       console.error("Error updating profile: ", error);
       alert('Failed to update profile.');
     } finally {
       this.isLoading = false;
+    }
+  }
+
+  async topUpWallet(amount: number) {
+    if (!this.user || !this.user.uid) {
+      alert('กรุณาล็อกอินเพื่อทำรายการ');
+      return;
+    }
+    if (amount <= 0) {
+      alert('จำนวนเงินต้องมากกว่า 0');
+      return;
+    }
+
+    this.isLoading = true;
+    const userDocRef = doc(this.firestore, `users/${this.user.uid}`);
+    
+    try {
+      const newBalance = (this.user.walletBalance || 0) + amount;
+      await updateDoc(userDocRef, { walletBalance: newBalance });
+
+      const transactionsCollectionRef = collection(this.firestore, `users/${this.user.uid}/transactions`);
+      // --- ใช้ 'date' ตอนบันทึก (ซึ่งถูกต้องอยู่แล้ว) ---
+      await addDoc(transactionsCollectionRef, {
+        date: serverTimestamp(),
+        type: 'Top-up',
+        amount: amount,
+        description: `Top-up ${amount} THB`
+      });
+
+      this.user.walletBalance = newBalance;
+      this.userService.currentUser$.next(this.user);
+      this.customAmount = null;
+      alert(`เติมเงิน ${amount} บาท สำเร็จ! ยอดเงินคงเหลือ: ${newBalance} บาท`);
+    } catch (error) {
+      console.error("Error topping up wallet: ", error);
+      alert('เกิดข้อผิดพลาดในการเติมเงิน');
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  onCustomTopUp() {
+    if (this.customAmount && this.customAmount > 0) {
+      this.topUpWallet(this.customAmount);
+    } else {
+      alert('กรุณากรอกจำนวนเงินที่ถูกต้อง');
     }
   }
 }

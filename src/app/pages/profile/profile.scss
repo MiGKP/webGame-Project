@@ -5,75 +5,123 @@ $text-light: #ffffff;
 $text-muted: #b9bbbe;
 $border-color: #40444b;
 $green: #2ecc71;
+$red: #e74c3c;
 
 .profile-container {
   padding: 2rem 5%;
   background-color: $bg-dark;
   color: $text-light;
-  min-height: calc(100vh - 70px); // 70px คือความสูงของ Navbar โดยประมาณ
+  min-height: calc(100vh - 70px); // หัก Navbar ออก
 }
 
-.profile-header {
-  margin-bottom: 2rem;
-  text-align: center;
-  h1 {
-    margin: 0;
-    font-size: 2.5rem;
-  }
-  p {
-    color: $text-muted;
-  }
+.profile-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.profile-content {
+// Profile Header Section
+.profile-header-section {
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.profile-card, .wallet-card {
+  align-items: center;
+  gap: 1.5rem;
   background-color: $card-bg;
   padding: 2rem;
   border-radius: 8px;
+  margin-bottom: 2rem;
   border: 1px solid $border-color;
-}
 
-.profile-card {
-  flex: 2;
-  min-width: 350px;
-  max-width: 500px;
-}
-
-.wallet-card {
-  flex: 1;
-  min-width: 300px;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-}
-
-.avatar-section {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  .avatar-preview {
+  .profile-avatar {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid $primary-blue;
-    margin-bottom: 1rem;
+  }
+
+  .user-info {
+    h2 {
+      margin: 0;
+      font-size: 2.2rem;
+      color: $text-light;
+    }
+    .user-email {
+      color: $text-muted;
+      font-size: 1rem;
+      margin-top: 0.25rem;
+    }
   }
 }
 
+// Main Content Area
+.profile-main-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr; // 2 คอลัมน์สำหรับหน้าจอขนาดกลางขึ้นไป
+  }
+
+  .details-wallet-card {
+    grid-column: 1 / -1; // ให้การ์ดนี้กินพื้นที่เต็มความกว้าง
+    background-color: $card-bg;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid $border-color;
+  }
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: $text-light;
+  }
+}
+
+// Edit Profile Button
+.edit-profile-btn {
+  background-color: $primary-blue;
+  color: $text-light;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  &:hover { background-color: lighten($primary-blue, 10%); }
+}
+
+.content-row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap; // เพื่อให้มีการขึ้นบรรทัดใหม่ในจอเล็ก
+  
+  .account-details-form {
+    flex: 1;
+    min-width: 280px;
+  }
+  .wallet-section {
+    flex: 1;
+    min-width: 280px;
+  }
+}
+
+
+// Form Group
 .form-group {
   margin-bottom: 1.5rem;
   label {
     display: block;
     color: $text-muted;
     margin-bottom: 0.5rem;
+    font-weight: bold;
   }
-  input {
+  input[type="text"], input[type="file"] {
     width: 100%;
     padding: 0.75rem;
     background-color: $bg-dark;
@@ -81,70 +129,166 @@ $green: #2ecc71;
     border-radius: 4px;
     color: $text-light;
     font-size: 1rem;
-    &:disabled {
-      background-color: lighten($bg-dark, 5%);
-      cursor: not-allowed;
+    &:focus {
+      outline: none;
+      border-color: $primary-blue;
+      box-shadow: 0 0 0 3px rgba($primary-blue, 0.2);
+    }
+  }
+  input[type="file"] {
+    cursor: pointer;
+  }
+}
+
+
+// Wallet Section
+.wallet-balance {
+  background-color: darken($card-bg, 3%);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 1rem;
+  p {
+    margin: 0 0 0.5rem 0;
+    color: $text-muted;
+    font-size: 1.1rem;
+  }
+  .balance-amount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    span {
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: $green;
+      line-height: 1;
+    }
+    .card-icon {
+      font-size: 3rem;
+      color: $text-muted;
     }
   }
 }
 
-.balance-display {
-  text-align: center;
-  margin-bottom: 2rem;
-  span {
-    color: $text-muted;
-    font-size: 1.2rem;
-  }
-  .balance-amount {
-    font-size: 3rem;
-    font-weight: bold;
-    color: $green;
-    margin-top: 0.5rem;
+// Add Funds Section
+.add-funds-card {
+  grid-column: 1 / -1; // กินพื้นที่เต็ม
+  background-color: $card-bg;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+  
+  .add-funds-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+
+    .fund-btn {
+      flex: 1;
+      min-width: 120px;
+      max-width: 180px;
+      background-color: $green;
+      color: $text-light;
+      padding: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+      &:hover { background-color: lighten($green, 10%); }
+    }
+
+    .custom-fund {
+      flex: 2;
+      display: flex;
+      gap: 0.5rem;
+      min-width: 250px;
+      
+      input {
+        flex: 1;
+        background-color: $bg-dark;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        padding: 0.75rem;
+        color: $text-light;
+        font-size: 1rem;
+        &:focus {
+          outline: none;
+          border-color: $primary-blue;
+          box-shadow: 0 0 0 3px rgba($primary-blue, 0.2);
+        }
+      }
+      .custom-amount-btn {
+        flex-shrink: 0; // ไม่ให้ปุ่มหด
+        background-color: $primary-blue;
+        &:hover { background-color: lighten($primary-blue, 10%); }
+      }
+    }
   }
 }
 
-.transaction-history {
-  margin-top: auto;
-  text-align: center;
-  a {
-    color: $primary-blue;
-    text-decoration: none;
-  }
+// Transaction History Section
+.transaction-history-card {
+  grid-column: 1 / -1; // กินพื้นที่เต็ม
+  background-color: $card-bg;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid $border-color;
 }
 
-// Buttons
-.change-photo-btn, .save-btn, .top-up-btn {
+.transactions-table-container {
+  overflow-x: auto; // ทำให้ตารางเลื่อนได้ถ้าจอเล็ก
+}
+
+.transactions-table {
   width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.change-photo-btn {
-  background: none;
-  border: 1px solid $primary-blue;
-  color: $primary-blue;
-  &:hover { background-color: rgba($primary-blue, 0.1); }
-}
-
-.save-btn {
-  background-color: $primary-blue;
+  border-collapse: collapse;
   color: $text-light;
-  margin-top: 1rem;
-  &:hover { background-color: lighten($primary-blue, 10%); }
+  
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid $border-color;
+  }
+
+  th {
+    background-color: darken($card-bg, 3%);
+    color: $text-muted;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+
+  td {
+    font-size: 0.95rem;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .amount-top-up {
+    color: $green;
+    font-weight: bold;
+  }
+
+  .amount-purchase {
+    color: $red;
+    font-weight: bold;
+  }
+
+  .no-transactions {
+    text-align: center;
+    color: $text-muted;
+    padding: 2rem;
+  }
 }
 
-.top-up-btn {
-  background-color: $green;
-  color: $text-light;
-  &:hover { background-color: lighten($green, 10%); }
-}
 
-// Loading spinner for better UX
+// Loading spinner
 .loading-spinner {
   border: 8px solid $border-color;
   border-top: 8px solid $primary-blue;

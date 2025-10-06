@@ -1,43 +1,89 @@
 <app-navbar></app-navbar>
 
 <div class="profile-container">
-  <div *ngIf="!isLoading && user; else loadingTemplate">
-    <div class="profile-header">
-      <h1>My Profile</h1>
-      <p>Manage your account details and wallet.</p>
+  <div *ngIf="!isLoading && user; else loadingTemplate" class="profile-wrapper">
+    <div class="profile-header-section">
+      <img [src]="profileImagePreview || 'assets/default-avatar.png'" [alt]="user.displayName" class="profile-avatar">
+      <div class="user-info">
+        <h2>{{ user.displayName || 'No Name' }}</h2>
+        <p class="user-email">{{ user.email }}</p>
+      </div>
     </div>
 
-    <div class="profile-content">
-      <div class="profile-card">
-        <h3>Account Details</h3>
-        <div class="avatar-section">
-          <img [src]="profileImagePreview" alt="Profile Avatar" class="avatar-preview">
-          <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
-          <button class="change-photo-btn" (click)="fileInput.click()">Change Photo</button>
-        </div>
-        
-        <div class="form-group">
-          <label for="displayName">Display Name</label>
-          <input id="displayName" type="text" [(ngModel)]="user.displayName">
+    <div class="profile-main-content">
+      <div class="details-wallet-card">
+        <div class="section-header">
+          <h3>Account Details & Wallet</h3>
+          <button class="edit-profile-btn" (click)="onUpdateProfile()">Save Changes</button>
         </div>
 
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" type="email" [value]="user.email" disabled>
-        </div>
+        <div class="content-row">
+          <div class="account-details-form">
+            <div class="form-group">
+              <label for="displayName">Display Name</label>
+              <input id="displayName" type="text" [(ngModel)]="user.displayName">
+            </div>
+            <div class="form-group">
+              <label for="profilePic">Profile Picture</label>
+              <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*">
+            </div>
+          </div>
 
-        <button class="save-btn" (click)="onUpdateProfile()">Save Changes</button>
+          <div class="wallet-section">
+            <div class="wallet-balance">
+              <p>Your Balance</p>
+              <div class="balance-amount">
+                <span>฿{{ user.walletBalance | number:'1.2-2' }}</span>
+                <span class="card-icon">💳</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="wallet-card">
-        <h3>My Wallet</h3>
-        <div class="balance-display">
-          <span>Current Balance</span>
-          <div class="balance-amount">฿ {{ user.walletBalance | number:'1.2-2' }}</div>
+      <div class="add-funds-card">
+        <div class="section-header">
+          <h3>Add Funds</h3>
         </div>
-        <button class="top-up-btn">Top Up</button>
-        <div class="transaction-history">
-          <a href="#">View Transaction History</a>
+        <div class="add-funds-options">
+          <button class="fund-btn" (click)="topUpWallet(100)">฿100.00</button>
+          <button class="fund-btn" (click)="topUpWallet(200)">฿200.00</button>
+          <button class="fund-btn" (click)="topUpWallet(500)">฿500.00</button>
+          <div class="custom-fund">
+            <input type="number" placeholder="Custom Amount" [(ngModel)]="customAmount" min="1">
+            <button class="fund-btn custom-amount-btn" (click)="onCustomTopUp()">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="transaction-history-card">
+        <div class="section-header">
+          <h3>Transaction History</h3>
+        </div>
+        <div class="transactions-table-container">
+          <table class="transactions-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th class="text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let transaction of (transactions$ | async)">
+                <td>{{ transaction.date?.toDate() | date:'MMM d, y, h:mm a' }}</td>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.description }}</td>
+                <td class="text-right" [ngClass]="{'amount-top-up': transaction.type === 'Top-up', 'amount-purchase': transaction.type.includes('Purchase')}">
+                  {{ transaction.type === 'Top-up' ? '+' : '-' }}฿{{ transaction.amount | number:'1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="(transactions$ | async)?.length === 0">
+                <td colspan="4" class="no-transactions">No transactions yet.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
