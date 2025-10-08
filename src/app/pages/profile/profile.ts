@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Navbar } from '../../layout/navbar/navbar';
+import { NavbarComponent } from '../../layout/navbar/navbar';
 import { UserService } from '../../core/services/user';
 
 // Firebase Imports
@@ -15,7 +15,7 @@ import { User } from '../../core/interfaces/user.interface';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, Navbar],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './profile.html',
   styleUrl: './profile.scss'
 })
@@ -49,7 +49,6 @@ export class ProfileComponent implements OnInit {
 
   loadTransactions(uid: string): void {
     const transactionsCollectionRef = collection(this.firestore, `users/${uid}/transactions`);
-    // --- แก้ไขตรงนี้: เปลี่ยน 'timestamp' เป็น 'date' ---
     const q = query(transactionsCollectionRef, orderBy('date', 'desc'));
     this.transactions$ = collectionData(q, { idField: 'id' });
   }
@@ -114,7 +113,6 @@ export class ProfileComponent implements OnInit {
       await updateDoc(userDocRef, { walletBalance: newBalance });
 
       const transactionsCollectionRef = collection(this.firestore, `users/${this.user.uid}/transactions`);
-      // --- ใช้ 'date' ตอนบันทึก (ซึ่งถูกต้องอยู่แล้ว) ---
       await addDoc(transactionsCollectionRef, {
         date: serverTimestamp(),
         type: 'Top-up',

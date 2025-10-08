@@ -6,14 +6,10 @@
   </div>
 
   <div class="nav-right" *ngIf="userService.currentUser$ | async as currentUser">
-    <div class="search-container">
-      <input type="text" placeholder="Search games...">
-      <button class="search-btn">🔍</button>
-    </div>
 
     <a routerLink="/cart" class="cart-link" routerLinkActive="active-link">
       🛒
-      <span class="cart-badge">0</span>
+      <span class="cart-badge" *ngIf="(cartItemCount$ | async) as count">{{ count > 0 ? (count > 9 ? '9+' : count) : '' }}</span>
     </a>
 
     <div class="profile-dropdown">

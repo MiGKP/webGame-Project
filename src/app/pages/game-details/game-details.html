@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<div class="details-container" *ngIf="game">
+<div class="details-container" *ngIf="!isLoading && game; else loadingTemplate">
   <div class="game-banner">
     <img [src]="game.imageUrl" [alt]="game.name">
   </div>
@@ -9,12 +9,37 @@
     <div class="info-panel">
       <h1>{{ game.name }}</h1>
       <p class="meta">{{ game.category }} | Release Date: {{ game.releaseDate?.toDate() | date: 'MMM d, y' }}</p>
-      <div class="price">฿{{ game.price }}.00</div>
-      <button class="add-to-cart-btn">Add to Cart</button>
+      <div class="price">฿{{ game.price | number:'1.2-2' }}</div>
+      
+      <!-- ===== ส่วนที่แก้ไข: เปลี่ยนเป็นระบบ Add to Cart ===== -->
+      <div class="purchase-section">
+        <!-- ปุ่มเมื่อมีเกมในคลังแล้ว -->
+        <button *ngIf="ownsGame" class="purchase-btn in-library" disabled>
+          ✔ In Library
+        </button>
+
+        <!-- ปุ่มเมื่อมีเกมในตะกร้าแล้ว -->
+        <button *ngIf="!ownsGame && isInCart" class="purchase-btn in-cart" routerLink="/cart">
+          In Cart (View)
+        </button>
+
+        <!-- ปุ่มเพิ่มลงตะกร้า -->
+        <button *ngIf="!ownsGame && !isInCart" 
+                class="purchase-btn add-to-cart" 
+                (click)="addToCart()">
+          Add to Cart
+        </button>
+      </div>
     </div>
 
     <div class="description-panel">
+      <h3>Description</h3>
       <p>{{ game.description }}</p>
     </div>
   </div>
 </div>
+
+<ng-template #loadingTemplate>
+  <div class="loading-spinner"></div>
+</ng-template>
+

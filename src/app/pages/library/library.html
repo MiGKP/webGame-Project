@@ -1,0 +1,27 @@
+<app-navbar></app-navbar>
+
+<div class="library-container">
+  <div class="library-header">
+    <h1>My Game Library</h1>
+    <p>All the games you own in one place. Click on a game to view details.</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <!-- แสดงเมื่อมีเกมในคลัง -->
+    <div class="game-grid" *ngIf="ownedGames.length > 0; else noGamesTemplate">
+      <app-game-card *ngFor="let game of ownedGames" [game]="game"></app-game-card>
+    </div>
+
+    <!-- แสดงเมื่อไม่มีเกมในคลัง -->
+    <ng-template #noGamesTemplate>
+      <div class="no-games-container">
+        <h2>Your library is empty</h2>
+        <p>Games you purchase will appear here.</p>
+        <a routerLink="/shop" class="browse-games-btn">Browse Games</a>
+      </div>
+    </ng-template>
+  </div>
+  
+  <!-- แสดงตอนกำลังโหลด -->
+  <div *ngIf="isLoading" class="loading-spinner"></div>
+</div>

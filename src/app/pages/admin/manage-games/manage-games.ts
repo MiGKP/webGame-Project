@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Firestore, collection, addDoc, Timestamp } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
-import { Navbar } from '../../../layout/navbar/navbar';
+import { NavbarComponent } from '../../../layout/navbar/navbar';
 import { FormsModule } from '@angular/forms';
 // ... imports อื่นๆ ที่จำเป็น
 
 @Component({ selector: 'app-manage-games',
-  imports: [Navbar,FormsModule],
+  imports: [NavbarComponent,FormsModule],
   templateUrl: './manage-games.html',
   styleUrl: './manage-games.scss' })
 export class ManageGamesComponent {

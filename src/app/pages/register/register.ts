@@ -40,7 +40,6 @@ export class RegisterComponent {
     }
   }
 
-  // ในไฟล์ src/app/pages/register/register.component.ts
 
 async onRegister() {
   // --- Validation Checks ---

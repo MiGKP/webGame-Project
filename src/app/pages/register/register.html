@@ -5,7 +5,7 @@
 
     <form #registerForm="ngForm" (ngSubmit)="onRegister()">
       <div class="profile-uploader" (click)="fileInput.click()">
-        <img [src]="profileImagePreview || 'assets/placeholder-user.png'" alt="Profile Preview">
+        <img [src]="profileImagePreview || 'assets/placeholder-user.png'">
         <span>upload a profile pic!</span>
         <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
       </div>

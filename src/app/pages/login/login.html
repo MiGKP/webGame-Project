@@ -1,33 +1,44 @@
 <div class="login-container">
-  <div class="login-box">
-    <img src="assets/logo.jpg" alt="GameShop Logo" class="logo">
+  <!-- Video Background -->
+  <video autoplay muted loop class="background-video">
+    <source src="assets/videos/bg.gif" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="overlay"></div>
 
-    <h2>welcome to gameshop</h2>
-    <p>sign in to continue</p>
+  <div class="login-box">
+    <!-- Animated SVG Logo -->
+    <svg class="animated-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#A020F0;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#00BFFF;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <g class="logo-group">
+        <path class="logo-shape" d="M50 0 L100 25 V75 L50 100 L0 75 V25 Z" stroke="url(#logoGradient)" stroke-width="5" fill="none"/>
+        <text x="50" y="58" font-size="28" fill="white" text-anchor="middle" font-weight="bold">GS</text>
+      </g>
+    </svg>
+
+    <h2>GameShop</h2>
+    <p>Enter the world of gaming</p>
 
     <form #loginForm="ngForm" (ngSubmit)="onLogin()">
       <div class="input-group">
-        <input
-          type="email"
-          placeholder="username or email"
-          [(ngModel)]="email"
-          name="email"
-          required
-          email>
+        <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required email>
       </div>
       <div class="input-group">
-        <input
-          type="password"
-          placeholder="password"
-          [(ngModel)]="password"
-          name="password"
-          required>
+        <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
       </div>
-      <button type="submit" class="login-btn" [disabled]="loginForm.invalid">Login</button>
+      <button type="submit" class="login-btn" [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="!isLoading">Sign In</span>
+        <div *ngIf="isLoading" class="loader"></div>
+      </button>
     </form>
 
     <div class="register-link">
-      <p>doesn't have acc? <a routerLink="/register">register</a></p>
+      <span>Don't have an account? <a routerLink="/register">Sign Up</a></span>
     </div>
   </div>
 </div>

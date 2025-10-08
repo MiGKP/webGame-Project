@@ -8,12 +8,12 @@ export const routes: Routes = [
     // --- หน้าสำหรับคนที่ยังไม่ล็อกอิน ---
     {
         path: 'login',
-        canActivate: [publicGuard], // 2. เพิ่ม Guard ที่นี่
+        canActivate: [publicGuard],
         loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent)
     },
     {
         path: 'register',
-        canActivate: [publicGuard], // 3. เพิ่ม Guard ที่นี่ด้วย
+        canActivate: [publicGuard],
         loadComponent: () => import('./pages/register/register').then(m => m.RegisterComponent)
     },
 
@@ -23,6 +23,16 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () => import('./pages/shop/shop').then(m => m.ShopComponent)
     },
+    {
+        path: 'library',
+        canActivate: [authGuard],
+        loadComponent: () => import('./pages/library/library').then(m => m.LibraryComponent)
+    },
+    {
+    path: 'cart',
+    canActivate: [authGuard], // ต้องล็อกอินก่อน
+    loadComponent: () => import('./pages/cart/cart').then(m => m.CartComponent)
+},
     {
         path: 'profile',
         canActivate: [authGuard],
@@ -34,21 +44,30 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/game-details/game-details').then(m => m.GameDetailsComponent)
     },
 
-    // --- หน้าสำหรับ Admin เท่านั้น ---
+    // --- หน้าสำหรับ Admin เท่านั้น (โครงสร้างใหม่) ---
     {
         path: 'admin',
         canActivate: [authGuard, adminGuard],
-        loadComponent: () => import('./pages/admin/manage-games/manage-games').then(m => m.ManageGamesComponent)
+        children: [
+          { 
+            path: '', // หน้า /admin หลัก ให้ไปที่ dashboard
+            loadComponent: () => import('./pages/admin/dashboard/dashboard').then(m => m.DashboardComponent) 
+          },
+          { 
+            path: 'manage-games', // หน้าสำหรับจัดการเกมโดยเฉพาะ
+            loadComponent: () => import('./pages/admin/manage-games/manage-games').then(m => m.ManageGamesComponent) 
+          }
+        ]
     },
     
     // --- การจัดการเส้นทางพื้นฐาน ---
     {
-        path: '', // ถ้าเข้ามาที่เว็บเฉยๆ ให้ไปหน้า login
+        path: '',
         redirectTo: '/login',
         pathMatch: 'full'
     },
     {
-        path: '**', // ถ้าหา path ไหนไม่เจอเลย
+        path: '**',
         redirectTo: '/login',
         pathMatch: 'full'
     }
