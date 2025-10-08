@@ -1,25 +1,11 @@
 <div class="login-container">
-  <!-- Video Background -->
-  <video autoplay muted loop class="background-video">
-    <source src="assets/videos/bg.gif" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <!-- แก้ไข: ใช้ <img> สำหรับไฟล์ GIF -->
+  <img src="assets/videos/bg.gif" class="background-image" alt="Background Animation">
   <div class="overlay"></div>
 
   <div class="login-box">
-    <!-- Animated SVG Logo -->
-    <svg class="animated-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#A020F0;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#00BFFF;stop-opacity:1" />
-        </linearGradient>
-      </defs>
-      <g class="logo-group">
-        <path class="logo-shape" d="M50 0 L100 25 V75 L50 100 L0 75 V25 Z" stroke="url(#logoGradient)" stroke-width="5" fill="none"/>
-        <text x="50" y="58" font-size="28" fill="white" text-anchor="middle" font-weight="bold">GS</text>
-      </g>
-    </svg>
+    <!-- แก้ไข: Path ของรูปโลโก้ควรอยู่ใน assets โดยตรง -->
+    <img src="assets/logo.jpg" alt="GameShop Logo" class="static-logo">
 
     <h2>GameShop</h2>
     <p>Enter the world of gaming</p>
@@ -42,3 +28,4 @@
     </div>
   </div>
 </div>
+

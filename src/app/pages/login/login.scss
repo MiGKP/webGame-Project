@@ -16,7 +16,8 @@ $border-color: #333333;
   overflow: hidden;
 }
 
-.background-video {
+// แก้ไข Class จาก .background-video เป็น .background-image
+.background-image {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -60,20 +61,14 @@ $border-color: #333333;
   }
 }
 
-// Animated Logo
-.animated-logo {
-  width: 90px;
-  height: 90px;
+// เพิ่ม Style สำหรับ Logo ใหม่
+.static-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
   margin-bottom: 1rem;
-
-  .logo-group {
-    animation: rotate 20s linear infinite;
-  }
-  .logo-shape {
-    stroke-dasharray: 400;
-    stroke-dashoffset: 400;
-    animation: draw 2s ease-out forwards 0.5s;
-  }
+  border: 3px solid $border-color;
 }
 
 .input-group {
@@ -143,15 +138,6 @@ $border-color: #333333;
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes rotate {
-  from { transform-origin: center; transform: rotate(0deg); }
-  to { transform-origin: center; transform: rotate(360deg); }
-}
-
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
 }
 
 @keyframes spin {
