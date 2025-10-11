@@ -39,6 +39,10 @@
         <input id="category" type="text" [(ngModel)]="currentGame.category" name="category" required>
       </div>
       <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="currentGame.description" name="description" required rows="4"></textarea>
+      </div>
+      <div class="form-group">
         <label for="price">Price</label>
         <input id="price" type="number" [(ngModel)]="currentGame.price" name="price" required>
       </div>

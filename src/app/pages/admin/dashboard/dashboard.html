@@ -7,6 +7,7 @@
   </div>
 
   <div *ngIf="!isLoading; else loadingTemplate">
+    <div class="dashboard-content">
     <div class="stats-grid">
       <div class="stat-card">
         <h4>Total Revenue</h4>
@@ -44,26 +45,24 @@
         </table>
       </div>
 
-      <div class="side-grid">
-        <div class="list-card">
-          <h3>Recently Added</h3>
-          <table>
-            <tbody>
-              <tr *ngFor="let game of recentlyAddedGames">
-                <td><img [src]="game.imageUrl" [alt]="game.name" class="game-thumb"></td>
-                <td>
-                  <div class="game-name">{{ game.name }}</div>
-                  <div class="game-date">{{ game.releaseDate?.toDate() | date:'shortDate' }}</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="list-card">
+        <h3>Recently Added</h3>
+        <table>
+          <tbody>
+            <tr *ngFor="let game of recentlyAddedGames">
+              <td><img [src]="game.imageUrl" [alt]="game.name" class="game-thumb"></td>
+              <td>
+                <div class="game-name">{{ game.name }}</div>
+                <div class="game-date">{{ game.releaseDate?.toDate() | date:'shortDate' }}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div class="actions-card">
-          <h3>Quick Actions</h3>
-          <a routerLink="/admin/manage-games" class="action-btn">Manage Games</a>
-        </div>
+      <div class="actions-card">
+        <h3>Quick Actions</h3>
+        <a routerLink="/admin/manage-games" class="action-btn">Manage Games</a>
       </div>
     </div>
   </div>

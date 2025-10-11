@@ -8,6 +8,7 @@ interface Game {
   id: string;
   name: string;
   category: string;
+  description: string;
   price: number;
   imageUrl: string;
   releaseDate: any; // Using 'any' for simplicity with Firestore Timestamps
@@ -66,6 +67,7 @@ export class AllGamesComponent implements OnInit {
       await updateDoc(gameDocRef, {
         name: this.currentGame.name,
         category: this.currentGame.category,
+        description: this.currentGame.description,
         price: this.currentGame.price,
       });
       // Update the local array to reflect changes immediately
