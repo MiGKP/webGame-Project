@@ -45,6 +45,18 @@ $border-color: #40444b;
   }
 }
 
+.stat-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover .stat-card {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -109,17 +121,22 @@ table {
 .actions-card {
   .action-btn {
     display: block;
-    width: 100%;
+    // width: 100%; // This was causing the overflow
     padding: 1rem;
-    background-color: $primary-blue;
+    background: linear-gradient(90deg, lighten($primary-blue, 5%), $primary-blue);
     color: $text-light;
     text-align: center;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 10px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    border: none;
+    box-shadow: 0 4px 15px rgba($primary-blue, 0.2);
+    transition: all 0.3s ease;
+    
     &:hover {
-      background-color: lighten($primary-blue, 10%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($primary-blue, 0.3);
+      filter: brightness(1.1);
     }
   }
 }
@@ -140,15 +157,3 @@ table {
   100% { transform: rotate(360deg); }
 }
 
-
-.stat-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-
-  &:hover .stat-card {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  }
-}

@@ -8,10 +8,10 @@ interface Game {
   id: string;
   name: string;
   category: string;
-  description: string;
   price: number;
   imageUrl: string;
-  releaseDate: any; // Using 'any' for simplicity with Firestore Timestamps
+  releaseDate: any;
+  description: string;
 }
 
 @Component({
@@ -30,6 +30,7 @@ export class AllGamesComponent implements OnInit {
   // For Edit Modal
   isEditModalOpen = false;
   currentGame: Game | null = null;
+  categories: string[] = ['Action', 'RPG', 'Strategy', 'Racing', 'Horror']; // <-- เพิ่ม Array นี้
 
   ngOnInit(): void {
     this.fetchAllGames();
@@ -49,7 +50,6 @@ export class AllGamesComponent implements OnInit {
   }
 
   openEditModal(game: Game) {
-    // Create a copy to avoid modifying the original object directly
     this.currentGame = { ...game };
     this.isEditModalOpen = true;
   }
@@ -67,10 +67,9 @@ export class AllGamesComponent implements OnInit {
       await updateDoc(gameDocRef, {
         name: this.currentGame.name,
         category: this.currentGame.category,
-        description: this.currentGame.description,
         price: this.currentGame.price,
+        description: this.currentGame.description
       });
-      // Update the local array to reflect changes immediately
       const index = this.games.findIndex(g => g.id === this.currentGame!.id);
       if (index > -1) {
         this.games[index] = { ...this.currentGame };
@@ -93,3 +92,4 @@ export class AllGamesComponent implements OnInit {
     }
   }
 }
+
