@@ -1,0 +1,230 @@
+$bg-dark: #1e2124;
+$card-bg: #2c2f33;
+$primary-blue: #5865f2;
+$text-light: #ffffff;
+$text-muted: #b9bbbe;
+$border-color: #40444b;
+$green: #2ecc71;
+$red: #e74c3c;
+
+.users-container {
+  padding: 2rem 5%;
+  background-color: $bg-dark;
+  min-height: calc(100vh - 70px);
+}
+
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  color: $text-light;
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+}
+
+.search-bar input {
+  padding: 0.75rem 1rem;
+  border-radius: 20px;
+  border: 1px solid $border-color;
+  background-color: $card-bg;
+  color: $text-light;
+  font-size: 1rem;
+  width: 300px;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 3px rgba($primary-blue, 0.2);
+  }
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.user-card {
+  background-color: $card-bg;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid $border-color;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  
+  &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+}
+
+.user-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid $border-color;
+  margin-bottom: 1rem;
+}
+
+.user-name {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: $text-light;
+  font-weight: 600;
+}
+
+.user-wallet {
+  margin: 0 0 1.5rem 0;
+  color: $text-muted;
+  font-size: 1rem;
+}
+
+.history-btn {
+  background-color: $primary-blue;
+  color: $text-light;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: lighten($primary-blue, 10%);
+  }
+}
+
+.no-users-found {
+    text-align: center;
+    color: $text-muted;
+    padding: 3rem;
+    font-size: 1.2rem;
+}
+
+// Loading spinner
+.loading-spinner {
+  border: 8px solid $border-color;
+  border-top: 8px solid $primary-blue;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 5rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background-color: $card-bg;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid $border-color;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: $text-muted;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-header {
+  text-align: center;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid $border-color;
+  margin-bottom: 1.5rem;
+  
+  .modal-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin: 0;
+    color: $text-light;
+  }
+  
+  p {
+    color: $text-muted;
+    margin: 0.25rem 0 0 0;
+  }
+}
+
+.transactions-table-container {
+  overflow-y: auto;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: $text-light;
+
+  th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid $border-color;
+    font-size: 0.9rem;
+  }
+
+  th {
+    background-color: darken($card-bg, 4%);
+    color: $text-muted;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .amount-top-up { color: $green; }
+  .amount-purchase { color: $red; }
+
+  .no-transactions {
+    text-align: center;
+    color: $text-muted;
+    padding: 1.5rem;
+  }
+}

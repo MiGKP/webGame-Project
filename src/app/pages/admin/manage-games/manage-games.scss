@@ -1,0 +1,103 @@
+$bg-dark: #1e2124;
+$card-bg: #2c2f33;
+$primary-blue: #5865f2;
+$text-light: #ffffff;
+$text-muted: #b9bbbe;
+$border-color: #40444b;
+$green: #2ecc71;
+
+.admin-container {
+  padding: 2rem 5%;
+  background-color: $bg-dark;
+  min-height: calc(100vh - 70px); // 70px คือความสูงของ Navbar โดยประมาณ
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-card {
+  background-color: $card-bg;
+  padding: 2.5rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 700px;
+  border: 1px solid $border-color;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    color: $text-light;
+  }
+  p {
+    color: $text-muted;
+    font-size: 1rem;
+  }
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  .form-group {
+    flex: 1;
+  }
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    color: $text-muted;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: $bg-dark;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    color: $text-light;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-blue;
+      box-shadow: 0 0 0 3px rgba($primary-blue, 0.2);
+    }
+  }
+
+  input[type="file"] {
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: $green;
+  color: $text-light;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+
+  &:hover:not(:disabled) {
+    background-color: lighten($green, 10%);
+  }
+
+  &:disabled {
+    background-color: $border-color;
+    cursor: not-allowed;
+  }
+}

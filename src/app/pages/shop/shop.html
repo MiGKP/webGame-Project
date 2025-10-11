@@ -1,0 +1,34 @@
+<app-navbar></app-navbar>
+
+<div class="shop-container">
+  <section class="store-section">
+    <div class="section-header">
+      <h2>Game Store</h2>
+      <div class="search-section">
+        <input 
+          type="text" 
+          placeholder="Search by name or category..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()">
+      </div>
+    </div>
+    <div class="game-grid" *ngIf="filteredGames.length > 0; else noGamesFound">
+      <app-game-card *ngFor="let game of filteredGames" [game]="game"></app-game-card>
+    </div>
+    <ng-template #noGamesFound>
+      <div class="no-games-found">
+        <h3>No games found for "{{ searchTerm }}"</h3>
+        <p>Try searching for something else.</p>
+      </div>
+    </ng-template>
+  </section>
+
+  <section class="ranking-section">
+    <div class="section-header">
+      <h2>Game Ranking</h2>
+    </div>
+    <div class="game-grid">
+      <app-game-card *ngFor="let game of rankedGames" [game]="game"></app-game-card>
+    </div>
+  </section>
+</div>

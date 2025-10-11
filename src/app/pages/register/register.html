@@ -1,0 +1,44 @@
+<div class="register-container">
+  <!-- เปลี่ยน class จาก background-image เป็น background-media -->
+  <img src="assets/videos/bg.gif" class="background-media" alt="Background Animation">
+  <div class="overlay"></div>
+
+  <div class="register-box">
+    <h2>Create Account</h2>
+    <p>Join the GameShop community</p>
+
+    <form #registerForm="ngForm" (ngSubmit)="onRegister()">
+      <!-- Profile Uploader -->
+      <div class="profile-uploader" (click)="fileInput.click()">
+        <img [src]="profileImagePreview || 'assets/placeholder-user.jpg'" alt="Profile Preview">
+        <div class="upload-icon">
+          <span>+</span>
+        </div>
+        <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+      </div>
+
+      <div class="input-group">
+        <input type="text" placeholder="Display Name" [(ngModel)]="displayName" name="displayName" required>
+      </div>
+      <div class="input-group">
+        <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required email>
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="Password (min. 6 characters)" [(ngModel)]="password" name="password" required minlength="6">
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+      </div>
+
+      <button type="submit" class="register-btn" [disabled]="registerForm.invalid || !selectedFile || isLoading">
+        <span *ngIf="!isLoading">Create Account</span>
+        <div *ngIf="isLoading" class="loader"></div>
+      </button>
+    </form>
+
+    <div class="login-link">
+      <span>Already have an account? <a routerLink="/login">Sign In</a></span>
+    </div>
+  </div>
+</div>
+

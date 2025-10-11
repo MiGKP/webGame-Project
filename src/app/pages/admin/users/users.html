@@ -1,0 +1,68 @@
+<app-navbar></app-navbar>
+
+<div class="users-container">
+  <div class="users-header">
+    <h1>Users</h1>
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search by name or email..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()">
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading; else loadingTemplate">
+    <div class="users-grid">
+      <div *ngFor="let user of filteredUsers" class="user-card">
+        <img [src]="user.photoURL || 'assets/placeholder-user.jpg'" [alt]="user.displayName" class="user-avatar">
+        <h3 class="user-name">{{ user.displayName }}</h3>
+        <p class="user-wallet">Wallet {{ user.walletBalance | number:'1.2-2' }} ฿</p>
+        <button class="history-btn" (click)="viewHistory(user)">ประวัติ</button>
+      </div>
+    </div>
+    <div *ngIf="filteredUsers.length === 0 && !isLoading" class="no-users-found">
+        <p>No users found matching "{{ searchTerm }}".</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="loading-spinner"></div>
+</ng-template>
+
+<div *ngIf="selectedUser" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">×</button>
+    <div class="modal-header">
+      <img [src]="selectedUser.photoURL || 'assets/placeholder-user.jpg'" [alt]="selectedUser.displayName" class="modal-avatar">
+      <h2>{{ selectedUser.displayName }}'s History</h2>
+      <p>{{ selectedUser.email }}</p>
+    </div>
+    <div class="transactions-table-container">
+      <table class="transactions-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th class="text-right">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of (transactions$ | async)">
+            <td>{{ transaction.date?.toDate() | date:'short' }}</td>
+            <td>{{ transaction.type }}</td>
+            <td>{{ transaction.description }}</td>
+            <td class="text-right" [ngClass]="{'amount-top-up': transaction.type === 'Top-up', 'amount-purchase': transaction.type === 'Purchase'}">
+              {{ transaction.type === 'Top-up' ? '+' : '-' }}฿{{ transaction.amount | number:'1.2-2' }}
+            </td>
+          </tr>
+          <tr *ngIf="(transactions$ | async)?.length === 0">
+            <td colspan="4" class="no-transactions">No transactions yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

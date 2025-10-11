@@ -1,0 +1,31 @@
+<div class="login-container">
+  <!-- แก้ไข: ใช้ <img> สำหรับไฟล์ GIF -->
+  <img src="assets/videos/bg.gif" class="background-image" alt="Background Animation">
+  <div class="overlay"></div>
+
+  <div class="login-box">
+    <!-- แก้ไข: Path ของรูปโลโก้ควรอยู่ใน assets โดยตรง -->
+    <img src="assets/logo.jpg" alt="GameShop Logo" class="static-logo">
+
+    <h2>GameShop</h2>
+    <p>Enter the world of gaming</p>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+      <div class="input-group">
+        <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required email>
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+      </div>
+      <button type="submit" class="login-btn" [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="!isLoading">Sign In</span>
+        <div *ngIf="isLoading" class="loader"></div>
+      </button>
+    </form>
+
+    <div class="register-link">
+      <span>Don't have an account? <a routerLink="/register">Sign Up</a></span>
+    </div>
+  </div>
+</div>
+

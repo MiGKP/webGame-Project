@@ -1,0 +1,116 @@
+.details-container {
+  padding: 2rem 5%;
+  background-color: #1e2124;
+  color: white;
+  min-height: calc(100vh - 70px);
+}
+
+.game-banner img {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+.game-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+}
+
+.info-panel {
+  flex: 1;
+  min-width: 300px;
+  
+  h1 {
+    font-size: 2.8rem;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .meta {
+    font-size: 1.1rem;
+    color: #b9bbbe;
+    margin-bottom: 1.5rem;
+  }
+
+  .price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2ecc71; // สีเขียว
+    margin-bottom: 1.5rem;
+  }
+}
+
+.description-panel {
+  flex: 2;
+  min-width: 400px;
+
+  h3 {
+    font-size: 1.5rem;
+    border-bottom: 2px solid #40444b;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    line-height: 1.6;
+    color: #dfe1e4;
+  }
+}
+
+.purchase-section {
+  margin-top: 1.5rem;
+  .purchase-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+  }
+
+  .buy-now {
+    background-color: #2ecc71;
+    color: white;
+    &:hover:not(:disabled) {
+      background-color: lighten(#2ecc71, 10%);
+    }
+    &:disabled {
+      background-color: #40444b;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  .in-library {
+    background-color: #5865f2;
+    color: white;
+    cursor: default;
+  }
+
+  .insufficient-funds {
+    color: #e74c3c;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0.75rem;
+  }
+}
+
+.loading-spinner {
+  border: 8px solid #40444b;
+  border-top: 8px solid #5865f2;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 5rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
